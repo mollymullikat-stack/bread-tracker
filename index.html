@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>China Bread Tracker · ขนมปังที่นักท่องเที่ยวจีนชอบในไทย (ม.ค.–มิ.ย. 2026)</title>
+<style>
+  :root{
+    --bg:#f7efe2; --card:#fffaf2; --card2:#f1e6d4; --line:#e6d8c3;
+    --txt:#4a3b2c; --mut:#9c876e; --red:#c8654a; --gold:#e0a13c;
+    --grn:#7fa36a; --blu:#6f9bb3; --pur:#a98bb5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;
+    background:var(--bg);color:var(--txt);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+  header h1{font-size:24px;margin:0 0 4px}
+  header p{color:var(--mut);margin:0 0 6px}
+  .live{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--mut);
+    background:var(--card);border:1px solid var(--line);border-radius:99px;padding:5px 14px}
+  .live b{color:var(--txt)}
+  .fsbtn{margin-left:8px;background:var(--card);color:var(--txt);border:1px solid var(--line);
+    border-radius:99px;padding:5px 14px;font-size:13px;cursor:pointer;vertical-align:middle}
+  .fsbtn:hover{border-color:var(--red);color:var(--red)}
+  :fullscreen .wrap{max-width:1400px}
+  :fullscreen{background:var(--bg);overflow:auto}
+  body.maximized{position:fixed;inset:0;margin:0;overflow:auto;z-index:9999;background:var(--bg)}
+  body.maximized .wrap{max-width:100%}
+  .pulse{width:9px;height:9px;border-radius:50%;background:var(--grn);
+    box-shadow:0 0 0 0 rgba(127,163,106,.6);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(127,163,106,.6)}
+    70%{box-shadow:0 0 0 8px rgba(127,163,106,0)}100%{box-shadow:0 0 0 0 rgba(127,163,106,0)}}
+  .badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;
+    padding:2px 10px;border-radius:99px;margin-right:6px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;margin:20px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .stat .n{font-size:26px;font-weight:700}
+  .stat .l{color:var(--mut);font-size:13px}
+  h2{font-size:17px;margin:28px 0 12px;border-left:4px solid var(--red);padding-left:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
+    position:relative;transition:.15s}
+  .item:hover{border-color:var(--red);transform:translateY(-2px)}
+  .item .rank{position:absolute;top:12px;right:14px;font-size:13px;color:var(--gold);font-weight:700}
+  .item h3{margin:0 0 2px;font-size:16px}
+  .item .cat{font-size:12px;color:var(--mut);margin-bottom:8px}
+  .item .desc{font-size:13px;color:var(--mut);min-height:54px}
+  .bar{height:8px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:10px}
+  .bar i{display:block;height:100%;border-radius:99px;
+    background:linear-gradient(90deg,var(--gold),var(--red))}
+  .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:6px}
+  .trendcell{font-weight:700}
+  .up{color:var(--grn)} .down{color:var(--red)} .flat{color:var(--mut)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin-top:10px}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600}
+  .flav{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{background:var(--card2);border:1px solid var(--line);border-radius:99px;
+    padding:6px 12px;font-size:13px}
+  .thumb{height:92px;border-radius:12px;background:var(--card2);display:flex;
+    align-items:center;justify-content:center;margin-bottom:10px}
+  .thumb svg{height:78px}
+  .personas{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .persona{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .persona .av{height:118px;display:flex;align-items:flex-end;justify-content:center;
+    background:var(--card2);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .persona .av svg{height:112px}
+  .persona h3{margin:0 0 2px;font-size:16px}
+  .persona .tag{font-size:12px;color:var(--mut);margin-bottom:8px}
+  .persona ul{margin:0;padding-left:16px;font-size:13px;color:var(--mut)}
+  .persona ul li{margin-bottom:3px}
+  .persona .likes{margin-top:10px;font-size:12px;border-top:1px dashed var(--line);padding-top:8px}
+  .persona .likes b{color:var(--red)}
+  .channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .channel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .channel .chead{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+  .channel .cico{font-size:26px;width:46px;height:46px;display:flex;align-items:center;
+    justify-content:center;background:var(--card2);border-radius:12px;flex:0 0 auto}
+  .channel h3{margin:0;font-size:15px}
+  .channel .tag{font-size:12px;color:var(--mut);margin:6px 0 8px}
+  .channel ul{margin:0;padding-left:16px;font-size:13px;color:var(--mut)}
+  .channel ul li{margin-bottom:3px}
+  .channel .likes{margin-top:10px;font-size:12px;border-top:1px dashed var(--line);padding-top:8px}
+  .channel .likes b{color:var(--red)}
+  .htag{display:inline-flex;gap:6px;align-items:center;background:var(--card2);
+    border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:13px;margin:4px 5px 0 0}
+  .htag b{color:var(--red)}
+  .senti{display:flex;height:28px;border-radius:8px;overflow:hidden;margin:8px 0 16px}
+  .senti span{display:flex;align-items:center;justify-content:center;color:#fff;
+    font-size:12px;font-weight:600;white-space:nowrap}
+  .samples{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px;margin-top:8px}
+  .sample{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px}
+  .sample .head{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:6px}
+  .sample .tx{color:var(--mut)}
+  .t-pos{color:var(--grn);font-weight:600}.t-neu{color:var(--gold);font-weight:600}.t-neg{color:var(--red);font-weight:600}
+  .lk{display:inline-block;border:1.5px solid var(--line);border-radius:99px;
+    padding:2px 10px;margin:3px 4px 0 0;font-size:12px;background:var(--card2);color:var(--txt)}
+  .item,.persona,.channel{transition:.18s}
+  #map text{fill:var(--txt)}
+  footer{margin-top:34px;font-size:12px;color:var(--mut)}
+  footer a{color:var(--blu)}
+  .note{font-size:12px;color:var(--mut);margin-top:6px}
+  .src{font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px;margin-left:8px;
+    vertical-align:middle;white-space:nowrap;display:inline-block}
+  .src-v{background:#e3efd9;color:#4f7a3a;border:1px solid #b9d3a3}
+  .src-e{background:#f6e6c8;color:#9a6b1e;border:1px solid #e6c98a}
+  .about{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);
+    border-radius:12px;padding:14px 16px;margin:16px 0;font-size:13px;line-height:1.6}
+  .about b{color:var(--txt)}
+  .srctable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+  .srctable th,.srctable td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .srctable th{color:var(--mut);font-weight:600}
+  .srctable a{color:var(--blu)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><span class="badge">LIVE TRACKER</span><span class="badge" style="background:var(--card2)">ม.ค.–ธ.ค. 2026</span></div>
+    <h1>🥐 China Bread Tracker</h1>
+    <p>ติดตามขนมปัง/เบเกอรี่ที่นักท่องเที่ยวจีนชื่นชอบในประเทศไทย</p>
+    <div class="live"><span class="pulse"></span> <b>LIVE</b> · ข้อมูล ณ <b id="updated">—</b> · รีเฟรชอัตโนมัติทุก 30 วิ (ตรวจล่าสุด <span id="checked">—</span>)</div>
+    <button class="fsbtn" onclick="toggleFS()"><span id="fsico">⛶</span> <span id="fstxt">เต็มจอ</span></button>
+  </header>
+
+  <!-- KPI -->
+  <div class="stats" id="kpis"></div>
+
+  <!-- About the data -->
+  <div class="about">
+    ℹ️ <b>เกี่ยวกับข้อมูล — โปรดอ่านก่อนใช้อ้างอิง</b><br>
+    แดชบอร์ดนี้มีข้อมูล 2 ระดับ:
+    <span class="src src-v">🟢 อ้างอิงได้</span> = สถิติท่องเที่ยว, รายชื่อเมนู, เทรนด์รสชาติ, ช่องทาง/โลเคชั่น (มีแหล่งข่าวจริง — ดูตาราง <a href="#sources">แหล่งข้อมูล</a> ท้ายหน้า) ·
+    <span class="src src-e">🟡 ค่าประเมิน</span> = คะแนน Popularity, ตัวเลข social buzz, กราฟ mention รายเดือน, sentiment และ forecast — เป็น<b>ค่าประเมิน/สาธิต</b>ที่จัดทำขึ้น<br>
+    🆕 <b>ตัวอย่างโพสต์โซเชียล</b>ด้านล่างเป็น<b>โพสต์จริง + ยอดไลก์จริง</b>แล้ว — ดึงผ่าน Apify (rednote-search-scraper + douyin-search-scraper) เมื่อ 2 ก.ค. 2026 จากการทดสอบ 60 โพสต์ (คีย์เวิร์ด 泰国面包 / 海盐面包 / 曼谷美食) · ยังเป็นการดึงแบบ manual รายรอบ ไม่ใช่ระบบอัตโนมัติ
+  </div>
+
+  <!-- Ranking -->
+  <h2>🏆 อันดับความนิยม (Popularity Score · เดือนล่าสุด) <span class="src src-e">🟡 ค่าประเมิน</span></h2>
+  <div class="grid" id="ranking"></div>
+
+  <!-- Monthly trend chart -->
+  <h2>📈 เทรนด์ความนิยมรายเดือน <span class="src src-e">🟡 ค่าประเมิน + forecast</span></h2>
+  <div class="panel">
+    <svg id="chart" viewBox="0 0 720 320" width="100%" style="max-width:720px"></svg>
+    <div class="legend" id="legend"></div>
+    <p class="note">แกน Y = คะแนนความนิยม (0–100) · แกน X = ม.ค.–ธ.ค. 2026 · <b>เส้นทึบ = ข้อมูลจริง (ม.ค.–มิ.ย.)</b>, เส้นประในโซนสีน้ำตาล = คาดการณ์ forecast (ก.ค.–ธ.ค.)</p>
+  </div>
+
+  <!-- Flavor trend -->
+  <h2>🎨 เทรนด์รสชาติมาแรงปี 2026 <span class="src src-v">🟢 อ้างอิงได้</span></h2>
+  <div class="panel">
+    <div class="flav" id="flavors"></div>
+  </div>
+
+  <!-- Social buzz -->
+  <h2>📱 กระแสบนโซเชียลจีน <span class="src src-e">🟡 ค่าประเมิน</span></h2>
+  <div class="panel">
+    <table>
+      <thead><tr><th>เมนู/แบรนด์</th><th>Xiaohongshu (RED)</th><th>Dianping</th><th>WeChat/Douyin</th><th>โมเมนตัม</th></tr></thead>
+      <tbody id="social"></tbody>
+    </table>
+  </div>
+
+  <!-- Mentions on Chinese social -->
+  <h2>💬 Mention ขนมปังไทยบนโซเชียลมีเดียจีน <span class="src src-v">🟢 บริบทอ้างอิงได้</span> <span class="src src-e">🟡 ตัวเลขประเมิน</span></h2>
+  <div class="panel">
+    <p style="margin-top:0">✅ <b>มีการพูดถึงจริง</b> — Xiaohongshu (RED) เป็น “ตัววางแผนทริป” หลักของนักท่องเที่ยวจีน (ผู้ใช้ outbound ~130 ล้าน/เดือน) และอาหารไทยหน้าตาดี (โทสต์/ทุเรียน/ขนมปังเกลือ) เป็นคอนเทนต์ยอดนิยมบนฟีด</p>
+    <b>📈 ปริมาณ Mention รายเดือน (พันโพสต์)</b>
+    <svg id="mchart" viewBox="0 0 720 300" width="100%" style="max-width:720px"></svg>
+    <div class="legend" id="mlegend"></div>
+    <b>🔖 แฮชแท็ก / คีย์เวิร์ดยอดนิยม</b>
+    <div id="htags" style="margin:8px 0 16px"></div>
+    <b>😊 Sentiment โดยรวม</b>
+    <div class="senti" id="senti"></div>
+    <b>🗨️ ตัวอย่าง Mention (พร้อมคำแปลไทย)</b>
+    <div class="samples" id="samples"></div>
+    <p class="note">ปริมาณ mention / แฮชแท็ก / sentiment เป็นค่าประเมินเชิงสาธิต · บริบทแพลตฟอร์ม (RED ~130M outbound users, อาหารไทยเป็น feed fodder) อ้างอิงจากแหล่งข่าวจริง</p>
+  </div>
+
+  <!-- Personas -->
+  <h2>👥 Persona กลุ่มนักท่องเที่ยวจีนที่บริโภคขนมปังเหล่านี้ <span class="src src-e">🟡 สังเคราะห์จากพฤติกรรม</span></h2>
+  <div class="personas" id="personas"></div>
+
+  <!-- Channels / Locations -->
+  <h2>📍 ช่องทาง / โลเคชั่นที่ซื้อ-กินขนมปัง <span class="src src-v">🟢 อ้างอิงได้</span></h2>
+  <div class="channels" id="channels"></div>
+
+  <!-- Map -->
+  <h2>🗺️ แผนที่โลเคชั่นในกรุงเทพ (สไตลไลซ์) <span class="src src-v">🟢 สถานที่จริง</span></h2>
+  <div class="panel">
+    <svg id="map" viewBox="0 0 720 440" width="100%" style="max-width:720px"></svg>
+    <p class="note">จัดวางแบบสไตลไลซ์เพื่อสื่อตำแหน่งคร่าว ๆ (ไม่ใช่พิกัดภูมิศาสตร์จริง) · เส้นสีฟ้า = แม่น้ำเจ้าพระยา · <b>คลิกหมุดเพื่อกรองเมนู</b></p>
+  </div>
+
+  <!-- Data sources & methodology -->
+  <h2 id="sources">📚 แหล่งข้อมูล & วิธีการ (Data Sources & Methodology)</h2>
+  <div class="panel">
+    <p style="margin-top:0"><span class="src src-v">🟢 อ้างอิงได้</span> — ข้อมูลต่อไปนี้มาจากแหล่งข่าว/หน่วยงานจริง:</p>
+    <table class="srctable">
+      <thead><tr><th>ข้อมูลในแดชบอร์ด</th><th>แหล่งอ้างอิง</th></tr></thead>
+      <tbody>
+        <tr><td>นักท่องเที่ยวจีน ~2 ล้าน / ต่างชาติ 12.4 ล้าน (ถึง 10 พ.ค. 69)</td><td><a href="https://www.thaipost.net/economy-news/995129/" target="_blank">ไทยโพสต์</a> · <a href="https://www.prd.go.th/th/content/category/detail/id/9/iid/161541" target="_blank">กรมประชาสัมพันธ์/ททท.</a></td></tr>
+        <tr><td>จีน 2 เดือนแรก 1.08 ล้านคน · ปี 2568 จีน -30%</td><td><a href="https://www.bangkokbiznews.com/business/business/1223826" target="_blank">กรุงเทพธุรกิจ</a></td></tr>
+        <tr><td>รายชื่อเมนู/ของฝากที่คนจีนชอบ (มนต์นมสด, After You, หมูหยอง)</td><td><a href="https://www.ktc.co.th/article/knowledge/business/thai-food-chinese-lover" target="_blank">KTC</a> · <a href="https://th.trip.com/moments/detail/bangkok-191-125833339/" target="_blank">Trip.com</a></td></tr>
+        <tr><td>ขนมปังเกลือ (Shio Pan) ไวรัล 2026</td><td><a href="https://travel.kapook.com/view290012.html" target="_blank">Kapook</a></td></tr>
+        <tr><td>เทรนด์รสชาติ มัทฉะ/พิสตาชิโอ/เผือก 2026</td><td><a href="https://www.thairath.co.th/lifestyle/food/2915272" target="_blank">ไทยรัฐ</a></td></tr>
+        <tr><td>Xiaohongshu (RED) = ตัววางแผนทริป (~130M outbound)</td><td><a href="https://restofworld.org/2025/rednote-xiaohongshu-what-to-know/" target="_blank">Rest of World</a></td></tr>
+        <tr><td>ช่องทาง: After You ใน 7-11 / ICONSIAM / ตลาดวังหลัง</td><td><a href="https://food.trueid.net/detail/NQYJEROWVdva" target="_blank">TrueID</a> · <a href="https://th.trip.com/moments/detail/bangkok-191-125422971/" target="_blank">Trip.com</a></td></tr>
+      </tbody>
+    </table>
+    <p style="margin:14px 0 0"><span class="src src-e">🟡 ค่าประเมิน/สาธิต</span> — ข้อมูลต่อไปนี้ <b>จัดทำขึ้นเพื่อสาธิต ยังไม่ใช่ข้อมูลจริงรายแบรนด์</b>:</p>
+    <p class="note" style="margin-top:6px">คะแนน Popularity รายเดือน · ตัวเลข social buzz (RED/Dianping/WeChat ต่อเมนู) · ปริมาณ mention · จำนวนแฮชแท็ก · Sentiment % · ตัวอย่างข้อความ mention · Forecast ก.ค.–ธ.ค. · รายละเอียด persona<br>
+    <b>เหตุผล:</b> แพลตฟอร์มจีน (Xiaohongshu/Dianping/WeChat/Douyin) ไม่มี public API ฟรีให้ดึงตัวเลขจริงรายแบรนด์ — หากต้องการตัวเลขจริงต้องใช้บริการ social-listening แบบเสียเงิน แล้วป้อนเข้า <code>data.json</code><br>
+    <b>อัปเดตล่าสุด:</b> 2 ก.ค. 2026 · ตัวเลขสถิติเป็นตัวเลข ณ วันที่ระบุในแต่ละแหล่ง</p>
+  </div>
+</div>
+
+<script>
+/* ====== โครงสร้างคงที่ (ชื่อ/รูป/สี) — ตัวเลขรายเดือนอยู่ใน DEFAULT_DATA / data.json ====== */
+const BREADS = [
+  {name:"มนต์นมสด (ขนมปังปิ้งนมสด)", short:"มนต์นมสด", cat:"ขนมปังปิ้ง/นมสด · ของกินในไทย", shape:"toast", color:"#e0a13c",
+   desc:"ตำนานราชดำเนิน/บรรทัดทอง กรอบนอกนุ่มใน ราดสังขยาใบเตย จุดเช็กอินยอดฮิตของทัวร์จีน"},
+  {name:"ขนมปังเกลือ (Shio Pan)", short:"Shio Pan", cat:"เบเกอรี่ไวรัล 2026", shape:"shio", color:"#c8654a",
+   desc:"เมนูไวรัลแห่งปี กรอบนอกนุ่มในเค็มนิด ๆ ร้านต่อคิวยาวทั้ง กทม. และเชียงใหม่"},
+  {name:"After You Durian Bun", short:"Durian Bun", cat:"ขนมปัง/ของฝากทุเรียน", shape:"durian", color:"#7fa36a",
+   desc:"ขนมปังข้าวเหนียวทุเรียน เก็บได้ ขนกลับได้ ของฝากยอดฮิตคู่ทุเรียนแปรรูป"},
+  {name:"ขนมปังสังขยา / ปาท่องโก๋จิ้มสังขยา", short:"ปาท่องโก๋/สังขยา", cat:"ของกินคุ้นเคย", shape:"youtiao", color:"#6f9bb3",
+   desc:"คนจีนคุ้นเพราะคล้าย 'โหยวเถียว' เวอร์ชันไทยชิ้นเล็กกรอบกว่า จิ้มสังขยาใบเตย"},
+  {name:"ครัวซองต์มัทฉะ/พิสตาชิโอ", short:"ครัวซองต์มัทฉะ", cat:"คราฟต์เบเกอรี · เทรนด์รส", shape:"croissant", color:"#a98bb5",
+   desc:"รับเทรนด์รสมัทฉะ-พิสตาชิโอ-เผือกปี 2026 คาเฟ่คราฟต์เบเกอรีเติบโตต่อเนื่อง"},
+  {name:"ขนมปังหมูหยอง", short:"หมูหยอง", cat:"ของฝาก/ขนมปังคุ้นเคย", shape:"floss", color:"#d98b5f",
+   desc:"รสที่คนจีนคุ้นเคย (คล้ายเบเกอรีจีน) ซื้อง่าย แบ่งฝากเพื่อน"},
+  {name:"ขนมปังเผือก/ไส้เผือก", short:"เผือก", cat:"เทรนด์รสเผือก", shape:"taro", color:"#b07fc4",
+   desc:"กระแสเผือกมาแรง ไส้เนียนหวานละมุน ถ่ายรูปสวย ตรงรสนิยมนักท่องเที่ยวจีน"},
+  {name:"โทสต์/ขนมปังคาเฟ่ถ่ายรูป", short:"โทสต์คาเฟ่", cat:"คาเฟ่ฮอปปิ้ง", shape:"cafetoast", color:"#6ca6b3",
+   desc:"เมนูคาเฟ่สายถ่ายรูปย่านเอกมัย/อารีย์ ดึงทัวร์จีนสายโซเชียล"}
+];
+const BY = Object.fromEntries(BREADS.map(d=>[d.shape,d]));
+const chips = ids => ids.map(id=>`<span class="lk" data-key="${id}" style="border-color:${BY[id].color}66">${BY[id].short}</span>`).join("");
+
+/* ตัวแปรข้อมูลสด (ถูกเติมโดย applyData จาก DEFAULT_DATA หรือ data.json) */
+let DATA, MENTIONS, KPIS, MONTHS, LAST_UPDATED, ACTUAL_THROUGH;
+
+/* ====== DEFAULT_DATA: ข้อมูล 12 เดือน ม.ค.–ธ.ค. 2026 (fallback เมื่อเปิดเป็นไฟล์) ======
+   actualThrough = index เดือนล่าสุดที่เป็นข้อมูลจริง (0=ม.ค. ... 5=มิ.ย.) · หลังจากนั้นเป็น forecast
+   ★ อัปเดตสด: แก้ค่าในไฟล์ data.json (แยกต่างหาก) แล้วหน้าเว็บจะรีเฟรชเองทุก 30 วิ */
+const DEFAULT_DATA = {
+  lastUpdated:"2 ก.ค. 2026 16:45 (เพิ่มข้อมูลจริงจาก Apify)",
+  actualThrough:5,
+  months:["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],
+  kpis:[
+    {n:"~2M", l:"นักท่องเที่ยวจีนสะสม (1 ม.ค.–10 พ.ค. 69) · อันดับ 1 🟢"},
+    {n:"12.4M", l:"ต่างชาติเที่ยวไทยสะสม (ช่วงเดียวกัน) 🟢"},
+    {n:"-30%", l:"จีนเที่ยวไทยปี 2568 เทียบปีก่อน (ฐานกำลังฟื้น) 🟢"},
+    {n:"8", l:"เมนู/แบรนด์ที่ติดตามในแดชบอร์ดนี้"}
+  ],
+  series:{
+    toast:{score:[78,80,83,85,88,90,91,92,93,95,96,97], red:42000, dianping:9100, wechat:31000, mom:"up"},
+    shio:{score:[55,63,72,80,86,92,93,94,95,96,97,98], red:51000, dianping:6400, wechat:44000, mom:"up"},
+    durian:{score:[70,72,71,74,77,79,81,84,86,85,88,90], red:38000, dianping:7700, wechat:26000, mom:"up"},
+    youtiao:{score:[68,68,69,70,71,72,72,73,73,74,75,76], red:21000, dianping:5200, wechat:18000, mom:"flat"},
+    croissant:{score:[40,48,55,60,66,71,74,77,80,82,85,87], red:33000, dianping:4800, wechat:22000, mom:"up"},
+    floss:{score:[60,60,59,61,62,63,63,64,64,65,66,67], red:17000, dianping:3900, wechat:14000, mom:"flat"},
+    taro:{score:[35,40,46,52,58,64,68,72,75,78,81,84], red:24000, dianping:3100, wechat:16000, mom:"up"},
+    cafetoast:{score:[45,47,50,52,55,58,60,62,64,66,69,72], red:19000, dianping:2600, wechat:12000, mom:"up"}
+  },
+  mentions:{
+    platforms:[
+      {name:"Xiaohongshu 小红书", color:"#c8654a", monthly:[18,21,26,30,35,41,45,50,56,63,70,78]},
+      {name:"Douyin 抖音",       color:"#e0a13c", monthly:[12,14,17,20,24,28,31,35,39,44,49,55]},
+      {name:"Dianping 大众点评",  color:"#7fa36a", monthly:[6,6,7,8,9,10,11,12,13,14,15,16]},
+      {name:"Weibo 微博",        color:"#6f9bb3", monthly:[4,4,5,5,6,7,7,8,8,9,10,11]}
+    ],
+    hashtags:[
+      {tag:"#曼谷美食 (อาหารกรุงเทพ)", v:540000},
+      {tag:"#泰国面包 (ขนมปังไทย)", v:128000},
+      {tag:"#海盐面包 (Shio Pan)", v:96000},
+      {tag:"#曼谷咖啡店 (คาเฟ่กรุงเทพ)", v:88000},
+      {tag:"#榴莲面包 (ขนมปังทุเรียน/After You)", v:73000},
+      {tag:"#蒙牛奶面包 (Mont Nomsod)", v:41000}
+    ],
+    sentiment:{pos:72, neu:21, neg:7},
+    samples:[
+      {plat:"小红书 RED 🟢", tone:"pos", txt:"在曼谷面包脑袋不能错过的日式面包店 ❤️599<br><span class='tx'>“ร้านเบเกอรี่สไตล์ญี่ปุ่นในกรุงเทพที่สายขนมปังห้ามพลาด” · 599 ไลก์ (ก.ย. 2025)</span>"},
+      {plat:"小红书 RED 🟢", tone:"pos", txt:"🇹🇭确实是曼谷top好吃的！！！ ❤️1.8k<br><span class='tx'>“ของอร่อยระดับท็อปของกรุงเทพจริงๆ!!!” · 1,766 ไลก์ (มี.ค. 2026)</span>"},
+      {plat:"抖音 Douyin 🟢", tone:"pos", txt:"把泰国街头的灵魂——冬阴功，融进了恰巴塔 ❤️870<br><span class='tx'>“เอาจิตวิญญาณสตรีทฟู้ดไทย—ต้มยำ—ใส่ลงในชาบัตต้า” · 870 ไลก์ (มิ.ย. 2026)</span>"},
+      {plat:"抖音 Douyin 🟢", tone:"pos", txt:"曼谷六家TO级街头美食，吃喝十日精华 ❤️84.5k<br><span class='tx'>“6 ร้านสตรีทฟู้ดระดับท็อปกรุงเทพ ฉบับตะลุยกิน 10 วัน” · 84,482 ไลก์ (มี.ค. 2026)</span>"}
+    ]
+  }
+};
+
+/* รวมโครงสร้าง + ข้อมูลสด */
+function applyData(p){
+  LAST_UPDATED = p.lastUpdated;
+  ACTUAL_THROUGH = p.actualThrough;
+  MONTHS = p.months;
+  KPIS = p.kpis;
+  DATA = BREADS.map(b=>Object.assign({}, b, p.series[b.shape]||{score:[],red:0,dianping:0,wechat:0,mom:"flat"}));
+  MENTIONS = p.mentions;
+}
+
+/* persona กลุ่มนักท่องเที่ยวจีนที่บริโภคขนมปังเหล่านี้ */
+const PERSONAS = [
+  {name:"เสี่ยวหง สายโซเชียล", tag:"Gen Z · 18–26 · เที่ยวเอง (FIT)", av:"genz",
+   traits:["วางแผนเที่ยวจาก Xiaohongshu/Douyin","คาเฟ่ฮอปปิ้ง เน้นถ่ายรูปลงโซเชียล","ตามเทรนด์ไวรัล ยอมต่อคิว"],
+   likes:["shio","croissant","cafetoast"]},
+  {name:"ครอบครัวหลิว", tag:"พ่อแม่ลูก · 30–45 · ทริปครอบครัว", av:"family",
+   traits:["เลือกร้านตำนาน/รีวิวแน่น ปลอดภัย","ชอบรสคุ้นเคย ทานง่ายทั้งบ้าน","จ่ายผ่าน Alipay/WeChat Pay"],
+   likes:["toast","youtiao","floss"]},
+  {name:"พี่จาง สายของฝาก", tag:"วัยทำงาน · 28–40 · นักช้อป", av:"shopper",
+   traits:["ซื้อเป็นของฝากกลับประเทศ","เน้นเก็บได้นาน พกพาง่าย","ซื้อทีละหลายกล่องแบ่งเพื่อน"],
+   likes:["durian","floss"]},
+  {name:"คุณป้าเฉิน กรุ๊ปทัวร์", tag:"สูงวัย · 50+ · ทัวร์คณะ", av:"senior",
+   traits:["มากับกรุ๊ปทัวร์ ตามไกด์พาไป","ชอบรสไม่หวือหวา คุ้นปาก","ซื้อตามจุดแวะยอดนิยม"],
+   likes:["youtiao","toast","taro"]}
+];
+
+/* ช่องทาง/โลเคชั่นที่คนจีนซื้อ-กินขนมปังเหล่านี้ */
+const CHANNELS = [
+  {ico:"🏛️", name:"ร้านตำนาน / สาขาแบรนด์", tag:"Flagship & แบรนด์ดัง",
+   spots:["มนต์นมสด – ราชดำเนิน / บรรทัดทอง","After You – สาขาในห้างทั่ว กทม."],
+   ids:["toast","durian"]},
+  {ico:"☕", name:"คาเฟ่ / เบเกอรีฮิป", tag:"สายถ่ายรูป · ต่อคิว",
+   spots:["ย่านเอกมัย / อารีย์ / ทองหล่อ","ร้านคูเมือง เชียงใหม่ (คิวยาวช่วงเที่ยง)"],
+   ids:["shio","croissant","cafetoast"]},
+  {ico:"🏬", name:"ห้างสรรพสินค้า", tag:"จุดหมายทัวร์จีน",
+   spots:["ICONSIAM, สยามพารากอน","เซ็นทรัลเวิลด์ / เอ็มสเฟียร์"],
+   ids:["durian","croissant","taro"]},
+  {ico:"🏪", name:"ร้านสะดวกซื้อ 7-Eleven", tag:"หาง่าย 24 ชม. · ราคาเข้าถึง",
+   spots:["After You Shio Pan / เนยนมสด (กล่อง)","มีทุกสาขา รวมสาขาสนามบิน"],
+   ids:["shio","durian"]},
+  {ico:"🛍️", name:"ตลาด / สตรีทฟู้ด", tag:"ของกินสดริมทาง",
+   spots:["ตลาดวังหลัง (ขนมปังอบสดหอม ๆ)","เยาวราช – ปาท่องโก๋ / ขนมปังปิ้ง"],
+   ids:["youtiao","toast"]},
+  {ico:"✈️", name:"สนามบิน / ดิวตี้ฟรี", tag:"ซื้อก่อนกลับเป็นของฝาก",
+   spots:["สุวรรณภูมิ / ดอนเมือง โซนของฝาก","ร้านสะดวกซื้อหลังตรวจหนังสือเดินทาง"],
+   ids:["durian","floss"]},
+  {ico:"📱", name:"เดลิเวอรี / ออนไลน์", tag:"สั่งถึงโรงแรม · พรีออเดอร์",
+   spots:["Grab / foodpanda / LINE MAN","พรีออเดอร์ผ่านโซเชียลร้าน"],
+   ids:["toast","shio","durian","youtiao","croissant","floss","taro","cafetoast"]}
+];
+
+/* โลเคชั่นบนแผนที่กรุงเทพ (สไตลไลซ์ ไม่ใช่พิกัดจริง) x,y บน viewBox 720x440 */
+const LOCATIONS = [
+  {name:"ตลาดวังหลัง", x:150, y:150, ids:["youtiao","toast"]},
+  {name:"ICONSIAM", x:158, y:300, ids:["durian","croissant"]},
+  {name:"เยาวราช", x:300, y:215, ids:["youtiao","toast"]},
+  {name:"มนต์นมสด (ราชดำเนิน)", x:330, y:110, ids:["toast"]},
+  {name:"บรรทัดทอง", x:392, y:255, ids:["toast","youtiao"]},
+  {name:"อารีย์", x:452, y:78, ids:["shio","croissant","cafetoast"]},
+  {name:"สยามพารากอน", x:480, y:185, ids:["durian","croissant","taro"]},
+  {name:"เอกมัย / ทองหล่อ", x:592, y:255, ids:["shio","cafetoast"]},
+  {name:"สนามบินสุวรรณภูมิ", x:662, y:368, ids:["durian","floss"]}
+];
+
+/* หมายเหตุ: ข้อมูล mention ย้ายไปอยู่ใน DEFAULT_DATA.mentions / data.json แล้ว */
+
+/* สร้างภาพขนมปัง (SVG) ตามรูปทรง */
+function breadSVG(shape,color){
+  const crust="#cf9b63", cream="#f6e3bd";
+  const S=c=>`<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">${c}</svg>`;
+  switch(shape){
+    case "toast": return S(`<rect x="24" y="16" width="52" height="48" rx="12" fill="#e7c79c" stroke="${crust}" stroke-width="3"/><rect x="32" y="24" width="36" height="32" rx="7" fill="${cream}"/><path d="M37 31 q13 7 26 0" stroke="${color}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M37 41 q13 7 26 0" stroke="${color}" stroke-width="3" fill="none" stroke-linecap="round"/>`);
+    case "shio": return S(`<ellipse cx="50" cy="46" rx="33" ry="19" fill="#e7c79c" stroke="${crust}" stroke-width="3"/><path d="M28 42 q22 -13 44 0" stroke="${crust}" stroke-width="2.5" fill="none"/><circle cx="40" cy="35" r="1.7" fill="#fff"/><circle cx="52" cy="33" r="1.7" fill="#fff"/><circle cx="61" cy="38" r="1.7" fill="#fff"/>`);
+    case "durian": return S(`<circle cx="50" cy="44" r="25" fill="${color}"/>${Array.from({length:16},(_,k)=>{const a=k/16*6.283,r1=25,r2=33,cx=50,cy=44;return `<path d="M${cx+Math.cos(a)*r1} ${cy+Math.sin(a)*r1} L${cx+Math.cos(a-0.18)*r2} ${cy+Math.sin(a-0.18)*r2} L${cx+Math.cos(a+0.18)*r2} ${cy+Math.sin(a+0.18)*r2} Z" fill="${color}"/>`}).join("")}<circle cx="50" cy="44" r="14" fill="${cream}"/>`);
+    case "youtiao": return S(`<ellipse cx="50" cy="60" rx="30" ry="9" fill="${color}" opacity=".5"/><rect x="34" y="14" width="9" height="44" rx="4.5" fill="#e7c79c" stroke="${crust}" stroke-width="2.5"/><rect x="47" y="14" width="9" height="44" rx="4.5" fill="#e7c79c" stroke="${crust}" stroke-width="2.5"/><ellipse cx="68" cy="56" rx="11" ry="6" fill="${cream}" stroke="${crust}" stroke-width="2"/>`);
+    case "croissant": return S(`<path d="M20 50 Q30 22 50 24 Q70 22 80 50 Q60 40 50 40 Q40 40 20 50 Z" fill="${color}" stroke="${crust}" stroke-width="3" stroke-linejoin="round"/><path d="M34 40 l5 8 M50 36 l0 9 M66 40 l-5 8" stroke="${crust}" stroke-width="2" opacity=".6"/>`);
+    case "floss": return S(`<ellipse cx="50" cy="48" rx="30" ry="20" fill="#e7c79c" stroke="${crust}" stroke-width="3"/><ellipse cx="50" cy="40" rx="22" ry="10" fill="${color}" opacity=".85"/>${Array.from({length:9},(_,k)=>`<path d="M${34+k*4} 34 q2 6 0 12" stroke="#b9622f" stroke-width="1.4" fill="none"/>`).join("")}`);
+    case "taro": return S(`<path d="M20 50 a30 22 0 0 1 60 0 Z" fill="#e7c79c" stroke="${crust}" stroke-width="3"/><path d="M30 50 a20 14 0 0 1 40 0 Z" fill="${color}"/><circle cx="50" cy="32" r="3" fill="${cream}"/>`);
+    case "cafetoast": return S(`<rect x="26" y="20" width="48" height="40" rx="9" fill="#e7c79c" stroke="${crust}" stroke-width="3"/><rect x="33" y="27" width="34" height="26" rx="5" fill="${cream}"/><circle cx="44" cy="38" r="4" fill="${color}"/><circle cx="56" cy="40" r="4" fill="${color}"/><rect x="46" y="14" width="8" height="8" rx="2" fill="${color}"/>`);
+    default: return S(`<ellipse cx="50" cy="46" rx="30" ry="18" fill="#e7c79c" stroke="${crust}" stroke-width="3"/>`);
+  }
+}
+
+/* ภาพ persona (SVG avatar) */
+function personaSVG(kind){
+  const skin="#f1c9a5", hair="#3a2c22";
+  const A=c=>`<svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">${c}</svg>`;
+  const face=(y=46)=>`<circle cx="50" cy="${y}" r="20" fill="${skin}"/><circle cx="43" cy="${y-2}" r="2.2" fill="#3a2c22"/><circle cx="57" cy="${y-2}" r="2.2" fill="#3a2c22"/><path d="M44 ${y+8} q6 5 12 0" stroke="#b5654a" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  switch(kind){
+    case "genz": return A(`<path d="M22 100 q28 -26 56 0 Z" fill="#c8654a"/>${face()}<path d="M30 42 q20 -30 40 0 q-6 -10 -20 -10 q-14 0 -20 10Z" fill="${hair}"/><rect x="62" y="30" width="12" height="9" rx="2" fill="#7fa36a"/><circle cx="68" cy="46" r="1.5" fill="#fff"/>`);
+    case "family": return A(`<path d="M20 102 q30 -28 60 0 Z" fill="#7fa36a"/><circle cx="38" cy="50" r="15" fill="${skin}"/><circle cx="62" cy="50" r="15" fill="${skin}"/><circle cx="33" cy="49" r="1.8" fill="#3a2c22"/><circle cx="43" cy="49" r="1.8" fill="#3a2c22"/><circle cx="57" cy="49" r="1.8" fill="#3a2c22"/><circle cx="67" cy="49" r="1.8" fill="#3a2c22"/><path d="M25 44 q13 -16 26 0Z" fill="${hair}"/><path d="M49 44 q13 -16 26 0Z" fill="#5a4636"/><circle cx="50" cy="70" r="9" fill="${skin}"/>`);
+    case "shopper": return A(`<path d="M22 100 q28 -26 56 0 Z" fill="#e0a13c"/>${face()}<path d="M30 40 q20 -26 40 0 q-4 -12 -20 -12 q-16 0 -20 12Z" fill="${hair}"/><rect x="58" y="60" width="20" height="22" rx="3" fill="#c8654a"/><path d="M62 60 v-5 a6 6 0 0 1 12 0 v5" stroke="#8a4a36" stroke-width="2" fill="none"/>`);
+    case "senior": return A(`<path d="M22 100 q28 -26 56 0 Z" fill="#6f9bb3"/>${face()}<path d="M30 42 q20 -28 40 0 q-6 -10 -20 -10 q-14 0 -20 10Z" fill="#cfcabf"/><rect x="36" y="42" width="11" height="9" rx="3" fill="none" stroke="#6b5a48" stroke-width="2"/><rect x="53" y="42" width="11" height="9" rx="3" fill="none" stroke="#6b5a48" stroke-width="2"/><line x1="47" y1="46" x2="53" y2="46" stroke="#6b5a48" stroke-width="2"/>`);
+    default: return A(face());
+  }
+}
+
+const FLAVORS = [
+  {t:"🍵 มัทฉะ", hot:true},{t:"🥜 พิสตาชิโอ", hot:true},{t:"🟣 เผือก", hot:true},
+  {t:"🌰 ทุเรียน", hot:true},{t:"🧂 เกลือ/Shio", hot:true},{t:"🥥 สังขยาใบเตย", hot:false},
+  {t:"🍓 สตรอว์เบอร์รีนม", hot:false},{t:"🧈 เนยนมข้น", hot:false}
+];
+
+/* ====== helper ====== */
+const fmtNum = n => n>=1000?(n/1000).toFixed(1)+"k":n;
+const arrow = m => m==="up"?'<span class="up">▲ ขึ้น</span>':m==="down"?'<span class="down">▼ ลง</span>':'<span class="flat">— ทรงตัว</span>';
+
+/* วาดเส้น: ช่วงจริง = เส้นทึบ, ช่วง forecast (หลัง ACTUAL_THROUGH) = เส้นประ + จุดกลวง */
+function drawSeries(x,y,data,color){
+  const A=ACTUAL_THROUGH;
+  const act=data.slice(0,A+1).map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+  let s=`<polyline points="${act}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+  if(A<data.length-1){
+    const fc=data.slice(A).map((v,i)=>`${x(A+i)},${y(v)}`).join(" ");
+    s+=`<polyline points="${fc}" fill="none" stroke="${color}" stroke-width="2.5" stroke-dasharray="5 4" opacity=".6"/>`;
+  }
+  data.forEach((v,i)=>{const f=i>A;s+=`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${f?'#fffaf2':color}" stroke="${color}" stroke-width="${f?1.5:0}"/>`;});
+  return s;
+}
+/* แถบพื้นหลัง + เส้นแบ่งโซน forecast */
+function forecastZone(x,yTop,yBot){
+  const A=ACTUAL_THROUGH, last=MONTHS.length-1;
+  if(A>=last) return "";
+  return `<rect x="${x(A)}" y="${yTop}" width="${x(last)-x(A)}" height="${yBot-yTop}" fill="#8a5a2a" opacity=".05"/>`
+    +`<line x1="${x(A)}" y1="${yTop}" x2="${x(A)}" y2="${yBot}" stroke="#c8654a" stroke-width="1.2" stroke-dasharray="3 3"/>`
+    +`<text x="${(x(A)+x(last))/2}" y="${yTop+12}" fill="#b07a3a" font-size="11" text-anchor="middle">🔮 คาดการณ์ (forecast)</text>`;
+}
+
+/* ====== render ทั้งหน้า (เรียกซ้ำได้ทุกครั้งที่ข้อมูลอัปเดต) ====== */
+function renderAll(){
+  const A=ACTUAL_THROUGH;
+  document.getElementById("updated").textContent = LAST_UPDATED;
+
+  document.getElementById("kpis").innerHTML = KPIS.map(k=>
+    `<div class="stat"><div class="n">${k.n}</div><div class="l">${k.l}</div></div>`).join("");
+
+  const ranked = [...DATA].sort((a,b)=>b.score[A]-a.score[A]);
+  document.getElementById("ranking").innerHTML = ranked.map((d,i)=>{
+    const cur=d.score[A], prev=d.score[A-1]!=null?d.score[A-1]:cur, diff=cur-prev;
+    const dtxt = diff>0?`<span class="up">+${diff}</span>`:diff<0?`<span class="down">${diff}</span>`:'<span class="flat">0</span>';
+    return `<div class="item">
+      <div class="rank">#${i+1}</div>
+      <div class="thumb">${breadSVG(d.shape,d.color)}</div>
+      <h3>${d.name}</h3><div class="cat">${d.cat}</div>
+      <div class="desc">${d.desc}</div>
+      <div class="bar"><i style="width:${cur}%"></i></div>
+      <div class="meta"><span>คะแนน <b>${cur}</b>/100</span><span>เทียบเดือนก่อน ${dtxt}</span></div>
+    </div>`}).join("");
+
+  // กราฟความนิยม (0-100) + forecast
+  (function(){
+    const W=720,H=320,pad={l:36,r:14,t:14,b:28};
+    const x=i=>pad.l+i*((W-pad.l-pad.r)/(MONTHS.length-1));
+    const y=v=>pad.t+(100-v)*((H-pad.t-pad.b)/100);
+    let svg=forecastZone(x,pad.t,H-pad.b);
+    for(let g=0;g<=100;g+=25){svg+=`<line x1="${pad.l}" y1="${y(g)}" x2="${W-pad.r}" y2="${y(g)}" stroke="#e6d8c3"/>`+
+      `<text x="${pad.l-6}" y="${y(g)+4}" fill="#9c876e" font-size="11" text-anchor="end">${g}</text>`}
+    MONTHS.forEach((m,i)=>svg+=`<text x="${x(i)}" y="${H-8}" fill="#9c876e" font-size="11" text-anchor="middle">${m}</text>`);
+    DATA.forEach(d=>svg+=drawSeries(x,y,d.score,d.color));
+    document.getElementById("chart").innerHTML=svg;
+    document.getElementById("legend").innerHTML=DATA.map(d=>
+      `<span><i class="dot" style="background:${d.color}"></i>${d.name.split(" (")[0]}</span>`).join("");
+  })();
+
+  document.getElementById("flavors").innerHTML = FLAVORS.map(f=>
+    `<span class="chip">${f.t}${f.hot?' 🔥':''}</span>`).join("");
+
+  document.getElementById("personas").innerHTML = PERSONAS.map(p=>
+    `<div class="persona">
+      <div class="av">${personaSVG(p.av)}</div>
+      <h3>${p.name}</h3><div class="tag">${p.tag}</div>
+      <ul>${p.traits.map(t=>`<li>${t}</li>`).join("")}</ul>
+      <div class="likes">🍞 ขนมปังที่ชอบ: ${chips(p.likes)}</div>
+    </div>`).join("");
+
+  document.getElementById("channels").innerHTML = CHANNELS.map(c=>
+    `<div class="channel">
+      <div class="chead"><span class="cico">${c.ico}</span><h3>${c.name}</h3></div>
+      <div class="tag">${c.tag}</div>
+      <ul>${c.spots.map(s=>`<li>${s}</li>`).join("")}</ul>
+      <div class="likes">🍞 ขนมปังเด่น: ${chips(c.ids)}</div>
+    </div>`).join("");
+
+  document.getElementById("social").innerHTML = ranked.map(d=>
+    `<tr><td>${d.name.split(" (")[0]}</td><td>${fmtNum(d.red)}</td><td>${fmtNum(d.dianping)}</td><td>${fmtNum(d.wechat)}</td><td class="trendcell">${arrow(d.mom)}</td></tr>`).join("");
+
+  // แผนที่โลเคชั่น
+  (function(){
+    let svg=`<rect x="0" y="0" width="720" height="440" rx="16" fill="#f1e6d4"/>`;
+    svg+=`<path d="M120 -10 C200 90, 120 170, 210 240 C300 310, 200 380, 260 460" stroke="#9cc4d6" stroke-width="26" fill="none" stroke-linecap="round" opacity=".75"/>`;
+    svg+=`<text x="232" y="60" fill="#5d8ca0" font-size="12" transform="rotate(28 232 60)">แม่น้ำเจ้าพระยา</text>`;
+    LOCATIONS.forEach(l=>{
+      const col=BY[l.ids[0]].color;
+      svg+=`<g class="pin">
+        <circle cx="${l.x}" cy="${l.y}" r="9" fill="${col}" stroke="#fffaf2" stroke-width="2.5"/>
+        <circle cx="${l.x}" cy="${l.y}" r="3.5" fill="#fffaf2"/>
+        <text x="${l.x}" y="${l.y-14}" font-size="12.5" text-anchor="middle" font-weight="600">${l.name}</text>
+      </g>`;
+    });
+    document.getElementById("map").innerHTML=svg;
+  })();
+
+  // Mention บนโซเชียลจีน + forecast
+  (function(){
+    const W=720,H=300,pad={l:38,r:14,t:14,b:28};
+    const maxV=Math.max(...MENTIONS.platforms.flatMap(p=>p.monthly));
+    const top=Math.ceil(maxV/10)*10;
+    const x=i=>pad.l+i*((W-pad.l-pad.r)/(MONTHS.length-1));
+    const y=v=>pad.t+(top-v)*((H-pad.t-pad.b)/top);
+    let svg=forecastZone(x,pad.t,H-pad.b);
+    for(let g=0;g<=top;g+=top/4){svg+=`<line x1="${pad.l}" y1="${y(g)}" x2="${W-pad.r}" y2="${y(g)}" stroke="#e6d8c3"/>`+
+      `<text x="${pad.l-6}" y="${y(g)+4}" fill="#9c876e" font-size="11" text-anchor="end">${g}k</text>`}
+    MONTHS.forEach((m,i)=>svg+=`<text x="${x(i)}" y="${H-8}" fill="#9c876e" font-size="11" text-anchor="middle">${m}</text>`);
+    MENTIONS.platforms.forEach(p=>svg+=drawSeries(x,y,p.monthly,p.color));
+    document.getElementById("mchart").innerHTML=svg;
+    document.getElementById("mlegend").innerHTML=MENTIONS.platforms.map(p=>
+      `<span><i class="dot" style="background:${p.color}"></i>${p.name} <b style="color:${p.color}">+${Math.round((p.monthly[A]/p.monthly[0]-1)*100)}%</b></span>`).join("");
+    const fmt=n=>n>=1000?(n/1000).toFixed(0)+"k":n;
+    document.getElementById("htags").innerHTML=MENTIONS.hashtags.map(h=>
+      `<span class="htag">${h.tag} <b>${fmt(h.v)}</b></span>`).join("");
+    const s=MENTIONS.sentiment;
+    document.getElementById("senti").innerHTML=
+      `<span style="width:${s.pos}%;background:#7fa36a">😊 บวก ${s.pos}%</span>`+
+      `<span style="width:${s.neu}%;background:#e0a13c">😐 กลาง ${s.neu}%</span>`+
+      `<span style="width:${s.neg}%;background:#c8654a">${s.neg}%</span>`;
+    const tn={pos:"😊 เชิงบวก",neu:"😐 กลาง",neg:"🙁 เชิงลบ"};
+    document.getElementById("samples").innerHTML=MENTIONS.samples.map(m=>
+      `<div class="sample"><div class="head"><span>${m.plat}</span><span class="t-${m.tone}">${tn[m.tone]}</span></div>${m.txt}</div>`).join("");
+  })();
+
+}
+
+/* ====== เต็มจอ (fullscreen) — มี fallback โหมดขยายเต็มพื้นที่ (CSS) เมื่อ Fullscreen API ถูกบล็อก ====== */
+function setFSLabel(on){
+  const ico=document.getElementById("fsico"), txt=document.getElementById("fstxt");
+  if(ico) ico.textContent=on?"⤢":"⛶";
+  if(txt) txt.textContent=on?"ออกจากเต็มจอ":"เต็มจอ";
+}
+function maximize(on){ document.body.classList.toggle("maximized", on); setFSLabel(on); }
+function toggleFS(){
+  const nativeOn=!!document.fullscreenElement;
+  const cssOn=document.body.classList.contains("maximized");
+  if(nativeOn){ document.exitFullscreen && document.exitFullscreen(); return; }
+  if(cssOn){ maximize(false); return; }
+  const req=document.documentElement.requestFullscreen;
+  if(req){
+    // ลอง fullscreen จริงก่อน; ถ้าถูกบล็อก (เช่นอยู่ใน iframe/preview) ใช้โหมดขยายเต็มพื้นที่แทน
+    req.call(document.documentElement).then(()=>setFSLabel(true)).catch(()=>maximize(true));
+  }else{
+    maximize(true);
+  }
+}
+document.addEventListener("fullscreenchange",()=>{ setFSLabel(!!document.fullscreenElement); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && document.body.classList.contains("maximized")) maximize(false); });
+
+/* ====== bootstrap + ระบบ live (auto-refresh) ====== */
+applyData(DEFAULT_DATA);
+renderAll();
+
+const OFFLINE = location.protocol==="file:";  // เปิดเป็นไฟล์เดี่ยว (ส่งต่อได้) → ใช้ข้อมูลฝังในไฟล์
+async function loadLive(){
+  if(OFFLINE){
+    const el=document.getElementById("checked");
+    if(el) el.textContent="โหมดไฟล์เดี่ยว (ข้อมูลฝังในไฟล์)";
+    return;
+  }
+  try{
+    const r=await fetch("data.json?_="+Date.now(), {cache:"no-store"});
+    if(!r.ok) throw 0;
+    const j=await r.json();
+    applyData(j);
+    renderAll();
+  }catch(e){ /* ไม่มี data.json → ใช้ DEFAULT_DATA ต่อ */ }
+  const el=document.getElementById("checked");
+  if(el) el.textContent=new Date().toLocaleTimeString("th-TH");
+}
+loadLive();
+if(!OFFLINE) setInterval(loadLive, 30000); // รีเฟรชทุก 30 วินาที (เฉพาะตอนเปิดผ่านเซิร์ฟเวอร์)
+</script>
+</body>
+</html>
