@@ -1,0 +1,24 @@
+name: QA deck render
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: deck-tmp
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq libreoffice-impress poppler-utils
+      - run: |
+          soffice --headless --convert-to pdf deck.pptx
+          pdftoppm -jpeg -r 100 deck.pdf slide
+          mkdir out && mv slide-*.jpg out/
+      - run: |
+          cd out
+          git init -b qa-imgs
+          git config user.name qa
+          git config user.email qa@local
+          git add .
+          git commit -qm 'qa renders'
+          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git qa-imgs
