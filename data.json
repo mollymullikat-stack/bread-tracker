@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "24 ส.ค. 2026 09:56 (อัปเดตอัตโนมัติผ่าน Apify)",
+  "lastUpdated": "31 ส.ค. 2026 14:55 (อัปเดตอัตโนมัติผ่าน Apify)",
   "actualThrough": 5,
   "months": [
     "ม.ค.",
@@ -305,91 +305,91 @@
       {
         "plat": "小红书 RED 🟢",
         "tone": "pos",
-        "txt": "教你找曼谷本地人美食｜附30家本地人宝藏店 ❤️5.5k<br><span class='tx'>5,462 ไลก์ (มิ.ย. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
+        "txt": "曼谷好好吃。 ❤️10.6k<br><span class='tx'>10,620 ไลก์ (ก.ค. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
       },
       {
         "plat": "小红书 RED 🟢",
         "tone": "pos",
-        "txt": "🇹🇭来曼谷最开心的十八件事。。。（穷鬼版） ❤️4.5k<br><span class='tx'>4,477 ไลก์ (มี.ค. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
+        "txt": "教你找曼谷本地人美食｜附30家本地人宝藏店 ❤️5.5k<br><span class='tx'>5,514 ไลก์ (มิ.ย. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
       },
       {
         "plat": "抖音 Douyin 🟢",
         "tone": "pos",
-        "txt": "曼谷真的太好吃了 下次还来 ❤️45.1k<br><span class='tx'>45,069 ไลก์ (ก.ค. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
+        "txt": "曼谷六家TO级街头美食，吃喝十日精华 ❤️85.7k<br><span class='tx'>85,663 ไลก์ (มี.ค. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
       },
       {
         "plat": "抖音 Douyin 🟢",
         "tone": "pos",
-        "txt": "五刷曼谷美食｜纯纯干饭人在曼谷吃什么 ❤️38.4k<br><span class='tx'>38,434 ไลก์ (ก.ค. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
+        "txt": "曼谷美食指南｜2026年春节泰兰德还是你的快乐老家吗？ ❤️58.0k<br><span class='tx'>58,019 ไลก์ (ก.พ. 2026) · จากคีย์เวิร์ด 曼谷美食</span>"
       }
     ]
   },
   "apifySample": {
-    "note": "🟢 ข้อมูลจริง — อัปเดตอัตโนมัติเมื่อ 24 ส.ค. 2026 ผ่าน GitHub Actions + Apify: top 10 โพสต์ต่อคีย์เวิร์ดต่อแพลตฟอร์ม · Actor: zen-studio/rednote-search-scraper + zen-studio/douyin-search-scraper",
+    "note": "🟢 ข้อมูลจริง — อัปเดตอัตโนมัติเมื่อ 31 ส.ค. 2026 ผ่าน GitHub Actions + Apify: top 10 โพสต์ต่อคีย์เวิร์ดต่อแพลตฟอร์ม · Actor: zen-studio/rednote-search-scraper + zen-studio/douyin-search-scraper",
     "keywords": {
       "泰国面包": {
         "xhs": {
           "posts": 10,
-          "likesSum": 3440,
-          "likesMedian": 123,
-          "likesMax": 1291,
-          "comments": 166,
-          "collects": 3056,
-          "thaiRelated": 7
+          "likesSum": 7392,
+          "likesMedian": 38,
+          "likesMax": 2561,
+          "comments": 297,
+          "collects": 8006,
+          "thaiRelated": 8
         },
         "douyin": {
           "posts": 10,
-          "likesSum": 16831,
-          "likesMedian": 277,
-          "likesMax": 12932,
-          "comments": 1529,
-          "collects": 3101,
+          "likesSum": 29692,
+          "likesMedian": 421,
+          "likesMax": 14190,
+          "comments": 3381,
+          "collects": 3259,
           "thaiRelated": 9
         }
       },
       "海盐面包": {
         "xhs": {
           "posts": 10,
-          "likesSum": 11147,
-          "likesMedian": 161,
-          "likesMax": 5306,
-          "comments": 399,
-          "collects": 13877,
+          "likesSum": 45120,
+          "likesMedian": 1659,
+          "likesMax": 30371,
+          "comments": 1677,
+          "collects": 43116,
           "thaiRelated": 0
         },
         "douyin": {
           "posts": 10,
-          "likesSum": 13932,
-          "likesMedian": 1284,
-          "likesMax": 3230,
-          "comments": 805,
-          "collects": 15855,
+          "likesSum": 748523,
+          "likesMedian": 10779,
+          "likesMax": 650944,
+          "comments": 33315,
+          "collects": 120783,
           "thaiRelated": 0
         }
       },
       "曼谷美食": {
         "xhs": {
           "posts": 10,
-          "likesSum": 14652,
-          "likesMedian": 771,
-          "likesMax": 5462,
-          "comments": 644,
-          "collects": 20600,
-          "thaiRelated": 9
+          "likesSum": 22381,
+          "likesMedian": 526,
+          "likesMax": 10620,
+          "comments": 819,
+          "collects": 20329,
+          "thaiRelated": 8
         },
         "douyin": {
           "posts": 10,
-          "likesSum": 105221,
-          "likesMedian": 1313,
-          "likesMax": 45069,
-          "comments": 4263,
-          "collects": 65371,
-          "thaiRelated": 10
+          "likesSum": 376058,
+          "likesMedian": 42583,
+          "likesMax": 85663,
+          "comments": 14898,
+          "collects": 247639,
+          "thaiRelated": 9
         }
       }
     },
     "insights": [
-      "曼谷美食 engagement สูงสุดในรอบนี้ (XHS 14,652 + Douyin 105,221 ไลก์)",
+      "海盐面包 engagement สูงสุดในรอบนี้ (XHS 45,120 + Douyin 748,523 ไลก์)",
       "海盐面包: โพสต์ท็อปไม่เกี่ยวกับไทยเลย (0/10) — พิจารณาใช้คีย์เวิร์ดผสม เช่น 泰国海盐面包"
     ]
   }
