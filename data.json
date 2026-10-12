@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "5 ต.ค. 2026 14:58 (อัปเดตอัตโนมัติผ่าน Apify)",
+  "lastUpdated": "12 ต.ค. 2026 15:18 (อัปเดตอัตโนมัติผ่าน Apify)",
   "actualThrough": 5,
   "months": [
     "ม.ค.",
@@ -310,17 +310,12 @@
       {
         "plat": "抖音 Douyin 🟢",
         "tone": "pos",
-        "txt": "泰国街头小吃，4元来个双绿套餐！#泰国 #泰国美食 #小吃 #路边摊美味 #泰国红姐 ❤️195.3k<br><span class='tx'>195,295 ไลก์ (ส.ค. 2021) · จากคีย์เวิร์ด 泰国面包</span>"
-      },
-      {
-        "plat": "抖音 Douyin 🟢",
-        "tone": "pos",
-        "txt": "泰航和After you 联名的泰奶面包太好吃了#甜点 #泰奶面包 #泰航 #afteryou #拒绝不了的食物 ❤️48.3k<br><span class='tx'>48,328 ไลก์ (ก.ค. 2026) · จากคีย์เวิร์ด 泰国面包</span>"
+        "txt": " ❤️0<br><span class='tx'>0 ไลก์ · จากคีย์เวิร์ด None</span>"
       }
     ]
   },
   "apifySample": {
-    "note": "🟢 ข้อมูลจริง — อัปเดตอัตโนมัติเมื่อ 5 ต.ค. 2026 ผ่าน GitHub Actions + Apify: top 10 โพสต์ต่อคีย์เวิร์ดต่อแพลตฟอร์ม · Actor: zen-studio/rednote-search-scraper + zen-studio/douyin-search-scraper",
+    "note": "🟢 ข้อมูลจริง — อัปเดตอัตโนมัติเมื่อ 12 ต.ค. 2026 ผ่าน GitHub Actions + Apify: top 10 โพสต์ต่อคีย์เวิร์ดต่อแพลตฟอร์ม · Actor: zen-studio/rednote-search-scraper + zen-studio/douyin-search-scraper",
     "keywords": {
       "泰国面包": {
         "xhs": {
@@ -333,13 +328,13 @@
           "thaiRelated": 0
         },
         "douyin": {
-          "posts": 10,
-          "likesSum": 307609,
-          "likesMedian": 4765,
-          "likesMax": 195295,
-          "comments": 7895,
-          "collects": 27303,
-          "thaiRelated": 9
+          "posts": 0,
+          "likesSum": 0,
+          "likesMedian": 0,
+          "likesMax": 0,
+          "comments": 0,
+          "collects": 0,
+          "thaiRelated": 0
         }
       },
       "海盐面包": {
@@ -384,7 +379,8 @@
       }
     },
     "insights": [
-      "泰国面包 engagement สูงสุดในรอบนี้ (XHS 0 + Douyin 307,609 ไลก์)",
+      "泰国面包 engagement สูงสุดในรอบนี้ (XHS 0 + Douyin 0 ไลก์)",
+      "泰国面包: โพสต์ท็อปไม่เกี่ยวกับไทยเลย (0/10) — พิจารณาใช้คีย์เวิร์ดผสม เช่น 泰国泰国面包",
       "海盐面包: โพสต์ท็อปไม่เกี่ยวกับไทยเลย (0/10) — พิจารณาใช้คีย์เวิร์ดผสม เช่น 泰国海盐面包",
       "曼谷美食: โพสต์ท็อปไม่เกี่ยวกับไทยเลย (0/10) — พิจารณาใช้คีย์เวิร์ดผสม เช่น 泰国曼谷美食"
     ]
